@@ -33,3 +33,4 @@ TODO
 
 * Support dead keys for combining diacritics
 * Figure out how to handle ISO keyboards (ISO Section key)
+* Make layouts end up in correct language groups
