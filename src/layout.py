@@ -90,4 +90,4 @@ class TypoLayout(Layout):
       ('anyOption anyShift caps?', id_special | id_Typo),
     ])
 
-    super().__init__(group, id, name + ' Typography', levels)
+    super().__init__(group, id, name + ' - Typography', levels)

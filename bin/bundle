@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+
+# SPDX-License-Identifier: MPL-2.0
+# © 2019 Kirill Elagin <kirelagin@gmail.com>
+
+# Make an XML keyboard layout bundle.
+#
+# Use: ./bundle
+
+import importlib
+import os
+import os.path
+import shutil
+import sys
+
+sys.path.append('src/')
+sys.path.append('layouts/')
+
+langs = {'en': 'english', 'ru': 'russian'}
+
+bdir = 'typo.bundle'
+os.mkdir(bdir)
+
+os.mkdir(os.path.join(bdir, 'Contents'))
+os.mkdir(os.path.join(bdir, 'Contents', 'Resources'))
+os.mkdir(os.path.join(bdir, 'Contents', 'Resources', 'en.lproj'))
+
+with open(os.path.join(bdir, 'Contents', 'Info.plist'), 'wt') as f:
+  def yield_info_plist():
+    def yield_input_source_info(lang_code, lang_name):
+      yield '<key>KLInfo_{} - Typography</key>'.format(lang_name.capitalize())
+      yield '<dict>'
+      yield '  <key>TISInputSourceID</key>'
+      yield '  <string>me.elagin.kir.keyboardlayout.typo.{}</string>'.format(lang_code)
+      yield '  <key>TISIntendedLanguage</key>'
+      yield '  <string>{}</string>'.format(lang_code)
+      yield '</dict>'
+
+    yield '<?xml version="1.0" encoding="UTF-8"?>'
+    yield '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
+    yield '<plist version="1.0">'
+    yield '<dict>'
+    yield '  <key>CFBundleIdentifier</key>'
+    yield '  <string>me.elagin.kir.keyboardlayout.typo</string>'
+    yield '  <key>CFBundleName</key>'
+    yield '  <string>Typo Layouts</string>'
+    yield '  <key>CFBundleVersion</key>'
+    yield '  <string></string>'
+    for lang_code, lang_name in langs.items():
+      for line in yield_input_source_info(lang_code, lang_name):
+        yield '  ' + line
+    yield '</dict>'
+    yield '</plist>'
+
+  for line in yield_info_plist():
+    print(line, file=f)
+
+with open(os.path.join(bdir, 'Contents', 'version.plist'), 'wt') as f:
+  def yield_version_plist():
+    yield '<?xml version="1.0" encoding="UTF-8"?>'
+    yield '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
+    yield '<plist version="1.0">'
+    yield '<dict>'
+    yield '  <key>ProjectName</key>'
+    yield '  <string>Typo Layouts</string>'
+    yield '  <key>SourceVersion</key>'
+    yield '  <string></string>'
+    yield '  <key>BuildVersion</key>'
+    yield '  <string></string>'
+    yield '</dict>'
+    yield '</plist>'
+  for line in yield_version_plist():
+    print(line, file=f)
+
+with open(os.path.join(bdir, 'Contents', 'Resources', 'en.lproj', 'InfoPlist.strings'), 'wt') as f:
+  for lang in langs.values():
+    print('"{0} - Typography" = "{0} - Typography";'.format(lang.capitalize()), file=f)
+
+for lang_code, lang_name in langs.items():
+  mod = importlib.import_module('typo.' + lang_name)
+  fname = lang_code + '_typo'
+  with open(os.path.join(bdir, 'Contents', 'Resources', fname + '.keylayout'), 'wt') as f:
+    print('\n'.join(mod.layout.yield_xml()), file=f)
+  if os.path.exists(fname + '.icns'):
+    shutil.copy(fname + '.icns', os.path.join(bdir, 'Contents', 'Resources', fname + '.icns'))
