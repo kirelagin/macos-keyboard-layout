@@ -21,12 +21,11 @@ which in turn is based on the [Typography Layout by Ilya Birman][typo-birman].
 
 You can build an English Typography layout by doing:
 
-* `cd src`
-* `python3 -c 'from layout import write_english_typo; write_english_typo()' > typo.keylayout`
+* `PYTHONPATH=src python3 layouts/typo/english.py > english_typo.keylayout`
 
 Then install it with:
 
-* `cp typo.keylayout ~/Library/"Keyboard Layouts"/`
+* `cp english_typo.keylayout ~/Library/"Keyboard Layouts"/`
 
 
 TODO

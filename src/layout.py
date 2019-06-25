@@ -6,7 +6,6 @@ import re
 import xml.etree.cElementTree as ET
 
 from key_map import IdMap
-from layers import english, typo
 from maps import other, special
 
 
@@ -57,16 +56,38 @@ class Layout:
 
     yield '</keyboard>'
 
-# This is a temporary function.
-# TODO: Generalise it.
-def write_english_typo():
-  layers = OrderedDict([
-    ('', IdMap(special.id_char) | IdMap(other.id_char) | IdMap.from_keymap(english.normal)),
-    ('anyShift', IdMap(special.id_char) | IdMap(other.id_char) | IdMap.from_keymap(english.shifted)),
-    ('anyOption', IdMap(special.id_char) | IdMap.from_keymap(typo.normal)),
-    ('anyShift anyOption', IdMap(special.id_char) | IdMap.from_keymap(typo.shifted)),
-  ])
 
-  layout = Layout(0, -8324, 'English (US) Typo', layers)
+class TypoLayout(Layout):
+  """A standard Typography Layout template.
 
-  print('\n'.join(layout.yield_xml()))
+  It automatically handles Shift vs. Caps Lock both for the standard
+  and typo levels; special keys; and translates from ANSI key maps.
+  """
+  def __init__(
+      self,
+      group, id, name,
+      alpha, alpha_shifted,
+      numsym, numsym_shifted,
+      typo, typo_shifted,
+      **kwargs):
+
+    (id_special, id_other) = map(IdMap, [special.id_char, other.id_char])
+    ( id_alpha, id_Alpha,
+      id_numsym, id_Numsym,
+      id_typo, id_Typo ) = map(IdMap.from_keymap,
+    [ alpha, alpha_shifted,
+      numsym, numsym_shifted,
+      typo, typo_shifted ])
+
+    levels = OrderedDict([
+      ('', id_special | id_other | id_alpha | id_numsym),
+      ('anyShift', id_special | id_other | id_Alpha | id_Numsym),
+
+      ('caps', id_special | id_other | id_Alpha | id_numsym),
+      ('caps anyShift', id_special | id_other | id_alpha | id_Numsym),
+
+      ('anyOption caps?', id_special | id_typo),
+      ('anyOption anyShift caps?', id_special | id_Typo),
+    ])
+
+    super().__init__(group, id, name + ' Typography', levels)
