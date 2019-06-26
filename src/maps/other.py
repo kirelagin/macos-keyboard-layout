@@ -24,9 +24,6 @@ id_char = {
   91: '8',
   92: '9',
 
-  # ISO
-  10:  None,  # ISO Section
-
   # JIS
   93:  None,  # JIS yen
   94:  None,  # JIS underscore
