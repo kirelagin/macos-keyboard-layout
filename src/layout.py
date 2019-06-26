@@ -22,6 +22,9 @@ class Layout:
     self._name = name
     self._levels = levels
 
+  def __getitem__(self, index):
+    return list(self._levels.values())[index]
+
   # XML
   def yield_xml(self):
     yield '<?xml version="1.1" encoding="UTF-8"?>'
@@ -39,7 +42,11 @@ class Layout:
       yield '<modifierMap id="Mods" defaultIndex="0">'
       for index, mods in enumerate(self._levels.keys()):
         yield '  <keyMapSelect mapIndex="{}">'.format(index)
-        yield '    <modifier keys="{}"/>'.format(mods)
+        if not isinstance(mods, tuple):
+          yield '    <modifier keys="{}"/>'.format(mods)
+        else:
+          for mods1 in mods:
+            yield '    <modifier keys="{}"/>'.format(mods1)
         yield '  </keyMapSelect>'
       yield '</modifierMap>'
     for line in yield_modifier_map():
@@ -69,6 +76,7 @@ class TypoLayout(Layout):
       alpha, alpha_shifted,
       numsym, numsym_shifted,
       typo, typo_shifted,
+      base=None,
       **kwargs):
 
     (id_special, id_other) = map(IdMap, [special.id_char, other.id_char])
@@ -79,7 +87,15 @@ class TypoLayout(Layout):
       numsym, numsym_shifted,
       typo, typo_shifted ])
 
-    levels = OrderedDict([
+    levels = OrderedDict()
+
+    if base is not None:
+      # Index 0 (default) is the default idnex of the base keymap
+      withCommand = 'command anyControl? anyShift? caps? anyOption?'
+      withControl = 'command? anyControl anyShift? caps? anyOption?'
+      levels[(withCommand, withControl)] = base[0]
+
+    levels.update([
       ('', id_special | id_other | id_alpha | id_numsym),
       ('anyShift', id_special | id_other | id_Alpha | id_Numsym),
 
