@@ -1,8 +1,6 @@
 <!-- SPDX-License-Identifier: MPL-2.0 -->
 <!-- © 2019 Kirill Elagin <kirelagin@gmail.com> -->
 
-_This tool is WIP_
-
 macOS keyboard layout generator
 ================================
 
@@ -11,6 +9,8 @@ This small tool simplifies creating custom keyboard layouts for macOS.
 
 Typography layouts
 -------------------
+
+_`misc:typo` for your MacBook._
 
 This repository also contains everything needed to build a typography layout. The
 typography layer is based on the [`typo` modifier from `xkeyboard-config`][typo-xkbd],
