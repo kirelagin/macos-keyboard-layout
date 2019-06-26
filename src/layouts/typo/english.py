@@ -6,7 +6,7 @@ from layout import TypoLayout
 
 
 layout = TypoLayout(
-  0, -8324, 'English',
+  0, -8324, 'en', 'English',
   alpha=english.alpha, alpha_shifted={k: v.upper() for k,v in english.alpha.items()},
   numsym=english.numsym, numsym_shifted=english.numsym_shifted,
   typo=typo.normal, typo_shifted=typo.shifted

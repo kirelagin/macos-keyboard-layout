@@ -8,7 +8,7 @@ import layouts.typo.english
 
 
 layout = TypoLayout(
-  25, 28911, 'Russian',
+  25, 28911, 'ru', 'Russian',
   alpha=russian.alpha, alpha_shifted={k: v.upper() for k,v in russian.alpha.items()},
   numsym=russian.numsym, numsym_shifted=russian.numsym_shifted,
   typo=typo.normal, typo_shifted=typo.shifted,

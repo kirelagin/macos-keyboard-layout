@@ -12,15 +12,29 @@ from maps import other, special
 class Layout:
   """A keyboard layout consisting of multiple levels."""
 
-  def __init__(self, group, id, name, levels):
+  def __init__(self, group, id, sid, lang, name, levels):
     """Create a new keyboard layout.
 
     levels: ordered map from modifiers list to IdMap
     """
     self._group = group
     self._id = id
+    self._sid = sid
+    self._lang = lang
     self._name = name
     self._levels = levels
+
+  @property
+  def sid(self):
+    return self._sid
+
+  @property
+  def lang(self):
+    return self._lang
+
+  @property
+  def name(self):
+    return self._name
 
   def __getitem__(self, index):
     return list(self._levels.values())[index]
@@ -72,7 +86,7 @@ class TypoLayout(Layout):
   """
   def __init__(
       self,
-      group, id, name,
+      group, id, lang, name,
       alpha, alpha_shifted,
       numsym, numsym_shifted,
       typo, typo_shifted,
@@ -106,4 +120,4 @@ class TypoLayout(Layout):
       ('anyOption anyShift caps?', id_special | id_Typo),
     ])
 
-    super().__init__(group, id, name + ' - Typography', levels)
+    super().__init__(group, id, 'typo.' + lang, lang, name + ' - Typography', levels)
