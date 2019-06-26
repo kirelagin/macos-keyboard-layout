@@ -26,11 +26,3 @@ You can build an English Typography layout by doing:
 Then install it with:
 
 * `cp english_typo.keylayout ~/Library/"Keyboard Layouts"/`
-
-
-TODO
------
-
-* Support dead keys for combining diacritics
-* Figure out how to handle ISO keyboards (ISO Section key)
-* Make layouts end up in correct language groups
