@@ -120,4 +120,4 @@ class TypoLayout(Layout):
       ('anyOption anyShift caps?', id_special | id_Typo),
     ])
 
-    super().__init__(group, id, 'typo.' + lang, lang, name + ' - Typography', levels)
+    super().__init__(group, id, 'typo.' + lang, lang, name + ' – Typography', levels)
