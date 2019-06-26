@@ -21,7 +21,7 @@ which in turn is based on the [Typography Layout by Ilya Birman][typo-birman].
 
 You can build an English Typography layout by doing:
 
-* `PYTHONPATH=src python3 layouts/typo/english.py > english_typo.keylayout`
+* `PYTHONPATH=src python3 src/layouts/typo/english.py > english_typo.keylayout`
 
 Then install it with:
 

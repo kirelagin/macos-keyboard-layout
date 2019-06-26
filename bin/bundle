@@ -14,7 +14,6 @@ import shutil
 import sys
 
 sys.path.append('src/')
-sys.path.append('layouts/')
 
 langs = {'en': 'english', 'ru': 'russian'}
 
@@ -77,7 +76,7 @@ with open(os.path.join(bdir, 'Contents', 'Resources', 'en.lproj', 'InfoPlist.str
     print('"{0} - Typography" = "{0} - Typography";'.format(lang.capitalize()), file=f)
 
 for lang_code, lang_name in langs.items():
-  mod = importlib.import_module('typo.' + lang_name)
+  mod = importlib.import_module('layouts.typo.' + lang_name)
   fname = lang_code + '_typo'
   with open(os.path.join(bdir, 'Contents', 'Resources', fname + '.keylayout'), 'wt') as f:
     print('\n'.join(mod.layout.yield_xml()), file=f)

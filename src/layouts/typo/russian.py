@@ -4,7 +4,7 @@
 from layers import russian, typo
 from layout import TypoLayout
 
-from . import english
+import layouts.typo.english
 
 
 layout = TypoLayout(
@@ -12,7 +12,7 @@ layout = TypoLayout(
   alpha=russian.alpha, alpha_shifted={k: v.upper() for k,v in russian.alpha.items()},
   numsym=russian.numsym, numsym_shifted=russian.numsym_shifted,
   typo=typo.normal, typo_shifted=typo.shifted,
-  base=english.layout
+  base=layouts.typo.english.layout
 )
 
 if __name__ == '__main__':
