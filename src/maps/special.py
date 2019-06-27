@@ -14,10 +14,10 @@
 #   by myself for completeness. We don’t map them because I have no idea
 #   how to determine the correct code point.
 id_char = {
-  36: '\u000D',  # enter
-  48: '\u0009',  # tab
-  51: '\u0008',  # delete
-  53: '\u001B',  # esc
+  36: '\x0D',  # enter
+  48: '\x09',  # tab
+  51: '\x08',  # delete
+  53: '\x1B',  # esc
   54: None,  # right command
   55: None,  # command
   56: None,  # shift
@@ -29,54 +29,54 @@ id_char = {
   62: None,  # right control
   63: None,  # bottom-left fn
 
-  72: '\u001F',  # volume up
+  72: '\x1F',  # volume up
   73: None,  # volume down
   74: None,  # mute
 
   # Arrows and block above them
-  114: '\u0005',  # help (or top-right fn?)
-  115: '\u0001',  # home
-  116: '\u000B',  # page up
-  117: '\u007F',  # delete forward
-  119: '\u0004',  # end
-  121: '\u000C',  # page down
-  123: '\u001C',  # Left
-  124: '\u001D',  # Right
-  125: '\u001F',  # Down
-  126: '\u001E',  # Up
+  114: '\x05',  # help (or top-right fn?)
+  115: '\x01',  # home
+  116: '\x0B',  # page up
+  117: '\x7F',  # delete forward
+  119: '\x04',  # end
+  121: '\x0C',  # page down
+  123: '\x1C',  # Left
+  124: '\x1D',  # Right
+  125: '\x1F',  # Down
+  126: '\x1E',  # Up
 
   # F keys
-  122: '\u0010',  # f1
-  120: '\u0010',  # f2
-  99:  '\u0010',  # f3
-  118: '\u0010',  # f4
-  96:  '\u0010',  # f5
-  97:  '\u0010',  # f6
-  98:  '\u0010',  # f7
-  100: '\u0010',  # f8
-  101: '\u0010',  # f9
-  109: '\u0010',  # f10
-  103: '\u0010',  # f11
-  111: '\u0010',  # f12
-  105: '\u0010',  # f13
-  107: '\u0010',  # f14
-  113: '\u0010',  # f15
-  106: '\u0010',  # f16
-  64:  '\u0010',  # f17
-  79:  '\u0010',  # f18
-  80:  '\u0010',  # f19
-  90:  '\u0010',  # f20
+  122: '\x10',  # f1
+  120: '\x10',  # f2
+  99:  '\x10',  # f3
+  118: '\x10',  # f4
+  96:  '\x10',  # f5
+  97:  '\x10',  # f6
+  98:  '\x10',  # f7
+  100: '\x10',  # f8
+  101: '\x10',  # f9
+  109: '\x10',  # f10
+  103: '\x10',  # f11
+  111: '\x10',  # f12
+  105: '\x10',  # f13
+  107: '\x10',  # f14
+  113: '\x10',  # f15
+  106: '\x10',  # f16
+  64:  '\x10',  # f17
+  79:  '\x10',  # f18
+  80:  '\x10',  # f19
+  90:  '\x10',  # f20
 
   # Numpad keyboard on the right
-  71: '\u001B',  # Clear
-  76: '\u0003',  # Enter
+  71: '\x1B',  # Clear
+  76: '\x03',  # Enter
 
   # Unknown (??)
-  52:  None,
-  66:  '\u001D',
+  52:  '\x03',
+  66:  '\x1D',
   68:  None,
-  70:  '\u001C',
-  77:  '\u001E',
+  70:  '\x1C',
+  77:  '\x1E',
   108: None,
   110: None,
   112: None,

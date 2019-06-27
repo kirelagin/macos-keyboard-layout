@@ -7,7 +7,7 @@
 # The idea is that these get mapped only on the first two layers.
 id_char = {
   # Numpad keyboard on the right
-  65: '',  # Weird key to the right of zero
+  65: '.',  # Weird key to the right of zero
   67: '*',
   69: '+',
   75: '/',
