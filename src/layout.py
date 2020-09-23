@@ -6,7 +6,8 @@ import re
 import xml.etree.cElementTree as ET
 
 from key_map import IdMap
-from layers import control
+from layers import control, diacritics
+from layout.action import State
 from maps import other, special
 
 
@@ -110,6 +111,8 @@ class TypoLayout(Layout):
       # Index 0 (default) is the default idnex of the base keymap
       levels['command anyControl? anyShift? caps? anyOption?'] = base[0]
 
+    self._remap_diacritics(id_alpha, id_Alpha, id_numsym, id_Numsym)
+
     levels.update([
       ('', id_special | id_other | id_alpha | id_numsym),
       ('anyShift', id_special | id_other | id_Alpha | id_Numsym),
@@ -117,10 +120,37 @@ class TypoLayout(Layout):
       ('caps', id_special | id_other | id_Alpha | id_numsym),
       ('caps anyShift', id_special | id_other | id_alpha | id_Numsym),
 
+      ('command? anyControl anyShift? caps? anyOption?', id_special | id_other | id_control),
+
       ('anyOption caps?', id_special | id_typo),
       ('anyOption anyShift caps?', id_special | id_Typo),
-
-      ('command? anyControl anyShift? caps? anyOption?', id_special | id_other | id_control),
     ])
 
     super().__init__(group, id, 'typo.' + lang, lang, name + ' – Typography', levels)
+
+  def _remap_diacritics(self, id_alpha, id_Alpha, id_numsym, id_Numsym):
+    """Hack support for diacritics via dead-keys into existing layers."""
+
+
+    for dkey, dval in diacritics.layer.items():
+      assert(dkey not in id_Numsym)
+      state = State(dval)
+      combining_dval = dval  # TODO: fixme
+      id_Numsym[dkey] = (state, {state: combining_dval})
+
+      # “Combining” with space will produce a standalone character
+      assert(id_numsym[' '] == ' ')
+      id_numsym[' '] = (' ', {state: dval})
+      assert(id_Numsym[' '] == ' ')
+      id_Numsym[' '] = (' ', {state: dval})
+
+    def fix_layer(layer):
+      for ckey, cval in layer.items():
+        states = {}
+        for dkey, dval in diacritics.layer.items():
+          if dval == '´' and cval == 'a':
+            states[id_Numsym[dkey]] = 'á'
+        if states:
+          layer[ckey] = (cval, states)
+    fix_layer(id_alpha)
+    fix_layer(id_Alpha)
